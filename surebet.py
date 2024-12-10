@@ -18,8 +18,8 @@ def calculate_arbitrage(bankroll, odds):
     # Calculate stakes for each outcome
     stakes = [(bankroll / (odd * total_probability)) for odd in odds]
 
-    # Calculate profit
-    profits = [stakes[i] * odds[i] - bankroll for i in range(len(odds))]
+    # Calculate guaranteed profit
+    profits = [stake * odd - bankroll for stake, odd in zip(stakes, odds)]
     guaranteed_profit = min(profits)
 
     # Calculate arbitrage percentage
@@ -30,6 +30,7 @@ def calculate_arbitrage(bankroll, odds):
         "profit": round(guaranteed_profit, 2),
         "arbitrage_percentage": round(arbitrage_percentage, 2),
     }
+
 
 def get_user_input():
     """
@@ -57,6 +58,7 @@ def get_user_input():
 
     return bankroll, odds
 
+
 def main():
     """
     Main function to run the surebet calculator.
@@ -78,6 +80,9 @@ def main():
             print(f"Arbitrage Percentage: {result['arbitrage_percentage']}%")
     except ValueError as e:
         print(f"Error: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
 
 if __name__ == "__main__":
     main()
